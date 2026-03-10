@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylish Engineering</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #333;
+      background: #f9f9f9;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .tagline { color: #555; margin-bottom: 2rem; }
+    h2 { font-size: 1.3rem; margin-bottom: 1rem; }
+    .cards { display: grid; gap: 1rem; }
+    .card {
+      display: block;
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      border-color: #2563eb;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
+    }
+    .card-title { font-size: 1.15rem; font-weight: 600; color: #2563eb; }
+    .card-desc { font-size: 0.95rem; color: #555; margin-top: 0.3rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Stylish Engineering</h1>
+    <p class="tagline">A software company with the goal of developing software that has a sense of style, is easy to use, and enjoyable.</p>
+    <h2>Apps</h2>
+    <div class="cards">
+      <a class="card" href="sevenDo/index.html">
+        <div class="card-title">SevenDo</div>
+        <div class="card-desc">Week Planner Todo</div>
+      </a>
+      <a class="card" href="doughIt/index.html">
+        <div class="card-title">DoughIt</div>
+        <div class="card-desc">Pizza Dough Calculator</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
