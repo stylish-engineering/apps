@@ -26,7 +26,9 @@
     h2 { font-size: 1.3rem; margin-bottom: 1rem; }
     .cards { display: grid; gap: 1rem; }
     .card {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
       padding: 1.5rem;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
@@ -44,17 +46,26 @@
 </head>
 <body>
   <div class="container">
-    <h1>Stylish Engineering</h1>
-    <p class="tagline">A software company with the goal of developing software that has a sense of style, is easy to use, and enjoyable.</p>
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+      <img src="../assets/stylish-engineering-logo.png" alt="Stylish Engineering logo" style="width: 80px; height: 80px;">
+      <h1>Stylish Engineering</h1>
+    </div>
+    <p class="tagline">A software company with the goal of creating useful products with a sense of style and easy to use.</p>
     <h2>Apps</h2>
     <div class="cards">
       <a class="card" href="sevenDo/index.html">
-        <div class="card-title">SevenDo</div>
-        <div class="card-desc">Week Planner Todo</div>
+        <img src="../assets/sevenDo-app-icon.png" alt="SevenDo icon" style="width: 48px; height: 48px; border-radius: 8px;">
+        <div>
+          <div class="card-title">SevenDo</div>
+          <div class="card-desc">Week Planner Todo</div>
+        </div>
       </a>
       <a class="card" href="doughIt/index.html">
-        <div class="card-title">DoughIt</div>
-        <div class="card-desc">Pizza Dough Calculator</div>
+        <img src="../assets/doughIt-app-icon.png" alt="DoughIt icon" style="width: 48px; height: 48px; border-radius: 8px;">
+        <div>
+          <div class="card-title">DoughIt</div>
+          <div class="card-desc">Pizza Dough Calculator</div>
+        </div>
       </a>
     </div>
   </div>
