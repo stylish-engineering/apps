@@ -26,18 +26,19 @@ Cross-app player identity keyed by **email address**.
 
 ### `game_flappy_scores`
 
-One row per game session (not just personal bests — full history).
+One row per player — stores the all-time highest score. Updated in place when a new score exceeds the stored one.
 
 | Column | Type | Notes |
 |---|---|---|
 | `id` | `uuid` PK | Auto-generated |
-| `player_id` | `uuid` FK → `game_players.id` | Cascade delete |
-| `app_id` | `text` NOT NULL | Identifies the submitting app (e.g. `'sevendo'`) |
-| `higher_score` | `integer` NOT NULL | Score achieved in that session |
+| `player_id` | `uuid` FK → `game_players.id` UNIQUE | Cascade delete. One record per player. |
+| `app_id` | `text` NOT NULL | App where the best score was achieved (e.g. `'sevendo'`) |
+| `higher_score` | `integer` NOT NULL | Player's all-time best score |
 | `created_at` | `timestamptz` | Auto |
+| `updated_at` | `timestamptz` | Updated whenever a new best score is set |
 
-**Indexes:** `higher_score DESC`, `player_id`, `app_id`
-**RLS:** Open read, open insert.
+**Indexes:** `higher_score DESC`, `app_id`
+**RLS:** Open read, open insert, open update.
 
 ---
 
@@ -45,7 +46,7 @@ One row per game session (not just personal bests — full history).
 
 ### `submit_flappy_score`
 
-Upserts the player by email (updating display name and avatar if changed) and inserts a new score row. Atomic — single call from the client.
+Upserts the player by email (updating display name and avatar if changed), then inserts or updates the score record. Score is only updated when `p_score` exceeds the stored `higher_score`. Atomic — single call from the client.
 
 **Parameters:**
 
@@ -57,7 +58,7 @@ Upserts the player by email (updating display name and avatar if changed) and in
 | `p_score` | `integer` | Yes | Score for this game session |
 | `p_app_id` | `text` | No | Defaults to `'sevendo'` |
 
-**Returns:** `uuid` — the new `game_flappy_scores.id`
+**Returns:** `uuid` — the `game_flappy_scores.id` (existing row on update, new row on first insert)
 
 **Example call (Supabase JS):**
 ```typescript
@@ -74,7 +75,7 @@ await supabase.rpc('submit_flappy_score', {
 
 ### `get_flappy_leaderboard`
 
-Returns the top 10 players by their personal best score. Pass `p_app_id` to scope to a single app, or omit for a global cross-app leaderboard.
+Returns the top 10 players ordered by `higher_score`. Pass `p_app_id` to filter to players whose best score was achieved on that app, or omit for a global cross-app leaderboard.
 
 **Parameters:**
 
@@ -138,8 +139,8 @@ const { data } = await supabase.rpc('get_flappy_user_rank', {
 
 ## Integration Notes
 
-- **Authentication:** This project uses the **anon key only**. There is no user-level auth — callers are trusted at the app level. RLS policies are open for read/insert.
+- **Authentication:** This project uses the **anon key only**. There is no user-level auth — callers are trusted at the app level. RLS policies are open for read/insert/update.
 - **Identity:** The player's email is the cross-app identity. The same email from Google login will resolve to the same `game_players` row regardless of which app submits the score.
 - **Apple Sign-In edge case:** Users who chose "hide my email" on Apple get a per-app relay address (e.g. `xyz@privaterelay.appleid.com`). Their identity will be separate per app on this leaderboard.
-- **Score history:** Every game session is stored as a separate row. The leaderboard and rank functions derive the personal best from this history via `MAX(higher_score)`.
-- **`app_id` values:** Use a consistent lowercase string per app (e.g. `'sevendo'`, `'my-other-app'`). This is the only field distinguishing scores from different apps.
+- **Score storage:** One record per player. `higher_score` is only updated when the new score exceeds it. `app_id` is updated to reflect the app where the best score was achieved.
+- **`app_id` values:** Use a consistent lowercase string per app (e.g. `'sevendo'`, `'my-other-app'`). The leaderboard can be scoped by this value.
