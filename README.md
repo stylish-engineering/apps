@@ -1,104 +1,42 @@
-# Stylish Engineering — Company Website
+# sv
 
-The official website for **Stylish Engineering**, a software development and design company focused on delivering apps and products that combine functionality with style. We believe a good solution isn't just functional — it should be elegant, enjoyable, and worth using.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-> Inspired by the values of companies like Teenage Engineering.
+## Creating a project
 
-Live at: [stylishengineering.com](https://stylishengineering.com)
+If you're seeing this, you've probably already done this step. Congrats!
 
----
-
-## What this repo contains
-
-### 1. Company Website
-A public-facing site presenting Stylish Engineering and its products — no authentication required.
-
-**Apps showcased:**
-- **SevenDo** — A weekly planner TO DO app *(website coming soon)*
-- **Saber Investir** — Personal finance app with an investment simulator using real stock data *(website coming soon)*
-- **DoughIt** — Pizza dough recipe calculator and step-by-step guide *(website coming soon)*
-
-### 2. Shared Game Backend
-A shared Supabase backend for cross-app game features (easter egg mini-games like Flappy Bird). Scores and player identities are stored independently of any single app, so the same leaderboard is shared across all apps hosting the game.
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | SvelteKit + Svelte 5 |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Backend | Supabase (game project) |
-| Hosting | Cloudflare Pages |
-| Domain | stylishengineering.com |
-
----
-
-## Local Development
-
-### Prerequisites
-- Node.js 20+
-- pnpm (or npm)
-
-### Setup
-
-```bash
-# Install dependencies
-pnpm install
-
-# Create your local environment file
-cp .env.example .env.local
-# Fill in the Supabase env vars (see Environment Variables below)
-
-# Start the dev server
-pnpm dev
+```sh
+# create a new project
+npx sv create my-app
 ```
 
-### Environment Variables
+To recreate this project with the same configuration:
 
-```env
-PUBLIC_GAME_SUPABASE_URL=https://yfrfgnvamuyvwentgndq.supabase.co
-PUBLIC_GAME_SUPABASE_ANON_KEY=<anon_key>
+```sh
+# recreate this project
+npx sv@0.13.1 create --template minimal --types ts --install npm .
 ```
 
----
+## Developing
 
-## Database Setup
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-The Supabase schema for the shared game backend is versioned in `supabase/migrations/`. To apply it manually, run the migration SQL via the [Supabase dashboard SQL editor](https://supabase.com/dashboard/project/yfrfgnvamuyvwentgndq/sql).
+```sh
+npm run dev
 
-The schema creates:
-- `game_players` — cross-app player identity keyed by email
-- `game_flappy_scores` — per-session scores with `app_id` to distinguish which app submitted them
-- RPC functions: `submit_flappy_score`, `get_flappy_leaderboard`, `get_flappy_user_rank`
-
----
-
-## Deployment
-
-Deployments are triggered automatically by Cloudflare Pages.
-
-To deploy a new version of the website, push or merge to the **`release-website`** branch:
-
-```bash
-git push origin release-website
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-Cloudflare Pages will detect the push and build + deploy the site automatically.
+## Building
 
----
+To create a production version of your app:
 
-## Project Structure
-
+```sh
+npm run build
 ```
-apps/
-├── src/
-│   ├── lib/           # Shared components, utilities, Supabase client
-│   └── routes/        # SvelteKit routes
-├── static/            # Static assets (logo, images)
-├── supabase/
-│   └── migrations/    # SQL migration files
-└── docs/              # Design docs and feature specs
-```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.

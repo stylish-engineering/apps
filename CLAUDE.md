@@ -1,3 +1,11 @@
+## Project Configuration
+
+- **Language**: TypeScript
+- **Package Manager**: npm
+- **Add-ons**: none
+
+---
+
 # CLAUDE.md — Stylish Engineering Website
 
 ## Project Overview

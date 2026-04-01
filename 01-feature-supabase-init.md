@@ -18,7 +18,7 @@ Configure the Supabase CLI and environment in this repo so migrations can be pus
 
 ## Steps
 
-### 1. ⬜ SvelteKit scaffold
+### 1. ✅ SvelteKit scaffold
 Bootstrap the SvelteKit project in the repo root so `package.json` exists before adding scripts.
 
 ```bash
@@ -28,7 +28,7 @@ pnpm install
 
 ---
 
-### 2. ⬜ Install Supabase CLI as a dev dependency
+### 2. ✅ Install Supabase CLI as a dev dependency
 
 Add the Supabase CLI so it is reproducible across machines without a global install.
 
@@ -38,7 +38,7 @@ pnpm add -D supabase
 
 ---
 
-### 3. ⬜ Add `db:push` script to `package.json`
+### 3. ✅ Add `db:push` script to `package.json`
 
 Add the following to the `scripts` section of `package.json`:
 
@@ -53,7 +53,7 @@ pnpm db:push
 
 ---
 
-### 4. ⬜ Create `.env.local` with Supabase credentials
+### 4. ✅ Create `.env.local` with Supabase credentials
 
 Create `.env.local` in the repo root (never committed):
 
@@ -67,7 +67,7 @@ SUPABASE_ACCESS_TOKEN=<your_supabase_personal_access_token>
 
 ---
 
-### 5. ⬜ Create `.env.example` as a committed reference
+### 5. ✅ Create `.env.example` as a committed reference
 
 Create `.env.example` in the repo root with placeholder values (safe to commit):
 
@@ -79,7 +79,7 @@ SUPABASE_ACCESS_TOKEN=<supabase_personal_access_token>
 
 ---
 
-### 6. ⬜ Create `.gitignore` and add `.env.local`
+### 6. ✅ Create `.gitignore` and add `.env.local`
 
 Create `.gitignore` at the repo root. At minimum:
 

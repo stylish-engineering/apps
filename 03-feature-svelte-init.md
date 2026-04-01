@@ -18,7 +18,7 @@ Scaffold the SvelteKit 5 project, build a basic landing page, and configure Clou
 
 ## Part 1 — SvelteKit Project Setup
 
-### 1. ⬜ Scaffold SvelteKit with Svelte 5
+### 1. ✅ Scaffold SvelteKit with Svelte 5
 
 Run inside the repo root (the `.` targets the current directory):
 
@@ -34,7 +34,7 @@ Accept overwrite prompts. This creates `package.json`, `svelte.config.js`, `vite
 
 ---
 
-### 2. ⬜ Install dependencies
+### 2. ✅ Install dependencies
 
 ```bash
 pnpm install
@@ -42,7 +42,7 @@ pnpm install
 
 ---
 
-### 3. ⬜ Install Tailwind CSS
+### 3. ✅ Install Tailwind CSS
 
 ```bash
 pnpm add -D tailwindcss @tailwindcss/vite
@@ -50,7 +50,7 @@ pnpm add -D tailwindcss @tailwindcss/vite
 
 ---
 
-### 4. ⬜ Configure Tailwind in `vite.config.ts`
+### 4. ✅ Configure Tailwind in `vite.config.ts`
 
 Update `vite.config.ts`:
 
@@ -66,7 +66,7 @@ export default defineConfig({
 
 ---
 
-### 5. ⬜ Create global CSS with Tailwind import
+### 5. ✅ Create global CSS with Tailwind import
 
 Create `src/app.css`:
 
@@ -76,7 +76,7 @@ Create `src/app.css`:
 
 ---
 
-### 6. ⬜ Create root layout importing global CSS
+### 6. ✅ Create root layout importing global CSS
 
 Create `src/routes/+layout.svelte`:
 
@@ -91,7 +91,7 @@ Create `src/routes/+layout.svelte`:
 
 ---
 
-### 7. ⬜ Build the landing page
+### 7. ✅ Build the landing page
 
 Create `src/routes/+page.svelte` with the following sections:
 
@@ -104,7 +104,7 @@ Use Svelte 5 syntax throughout (`$props()`, `$state()` if needed). No Svelte 4 p
 
 ---
 
-### 8. ⬜ Install Supabase JS client
+### 8. ✅ Install Supabase JS client
 
 ```bash
 pnpm add @supabase/supabase-js
@@ -112,7 +112,7 @@ pnpm add @supabase/supabase-js
 
 ---
 
-### 9. ⬜ Create the Supabase game client
+### 9. ✅ Create the Supabase game client
 
 Create `src/lib/supabase/game.ts`:
 
@@ -143,7 +143,7 @@ Visit `http://localhost:5173` and confirm the landing page renders correctly.
 
 ## Part 2 — Cloudflare Pages Configuration
 
-### 11. ⬜ Install the Cloudflare adapter
+### 11. ✅ Install the Cloudflare adapter
 
 ```bash
 pnpm add -D @sveltejs/adapter-cloudflare
@@ -151,7 +151,7 @@ pnpm add -D @sveltejs/adapter-cloudflare
 
 ---
 
-### 12. ⬜ Update `svelte.config.js` to use the Cloudflare adapter
+### 12. ✅ Update `svelte.config.js` to use the Cloudflare adapter
 
 ```javascript
 import adapter from '@sveltejs/adapter-cloudflare';
@@ -170,7 +170,7 @@ export default config;
 
 ---
 
-### 13. ⬜ Add `package.json` build script sanity check
+### 13. ✅ Add `package.json` build script sanity check
 
 Confirm the `build` script in `package.json` is:
 
@@ -182,7 +182,7 @@ Cloudflare Pages will call this to produce the `.svelte-kit/cloudflare` output d
 
 ---
 
-### 14. ⬜ Create `wrangler.toml`
+### 14. ✅ Create `wrangler.toml`
 
 Create `wrangler.toml` at the repo root to declare the Pages project name:
 
@@ -241,7 +241,7 @@ By default Cloudflare Pages deploys from `main`. Change this:
 
 ---
 
-### 18. ⬜ Create the `release-website` branch
+### 18. ✅ Create the `release-website` branch
 
 ```bash
 git checkout -b release-website
