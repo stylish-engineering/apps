@@ -1,129 +1,33 @@
-## Project Configuration
+# CLAUDE.md — stylish-engineering/apps
 
-- **Language**: TypeScript
-- **Package Manager**: npm
-- **Add-ons**: none
+Public repo for the Stylish Engineering brand. Three things live here:
 
----
-
-# CLAUDE.md — Stylish Engineering Website
-
-## Project Overview
-
-SvelteKit + Svelte 5 company website for Stylish Engineering, deployed to Cloudflare Pages. It serves two purposes:
-1. Public company website showcasing products (no auth)
-2. Shared Supabase backend for cross-app game features (leaderboards, easter eggs)
-
----
-
-## Tech Stack
-
-- **Framework:** SvelteKit with Svelte 5
-- **Language:** TypeScript (strict)
-- **Styling:** Tailwind CSS
-- **Backend:** Supabase (game project: `yfrfgnvamuyvwentgndq`)
-- **Deployment:** Cloudflare Pages — auto-deploys on push to `release-website` branch
-- **Domain:** stylishengineering.com
-
----
-
-## Critical Rules
-
-- **Always use Svelte 5 syntax.** Never use Svelte 4 patterns.
-  - Use runes: `$state`, `$derived`, `$effect`, `$props`, `$bindable`
-  - Use `{#each}`, `{#if}`, `{#await}` blocks as normal but with Svelte 5 event syntax (`onclick` not `on:click`)
-  - Component props use `let { foo } = $props()` — never `export let`
-  - Avoid `createEventDispatcher` — use callback props instead
-- **TypeScript everywhere.** No `any` unless truly unavoidable.
-- **No authentication on this site.** The Supabase project uses only the anon key. Do not add user auth flows.
-
----
-
-## Architecture
-
-### Supabase Client
-
-There is one Supabase client for the game backend. Initialize it with the public env vars:
-
-```typescript
-// src/lib/supabase/game.ts
-import { createClient } from '@supabase/supabase-js';
-import { PUBLIC_GAME_SUPABASE_URL, PUBLIC_GAME_SUPABASE_ANON_KEY } from '$env/static/public';
-
-export const gameSupabase = createClient(PUBLIC_GAME_SUPABASE_URL, PUBLIC_GAME_SUPABASE_ANON_KEY);
-```
-
-### Environment Variables
-
-All public — prefix with `PUBLIC_` so SvelteKit exposes them to the client:
-
-```
-PUBLIC_GAME_SUPABASE_URL
-PUBLIC_GAME_SUPABASE_ANON_KEY
-```
-
-Import with `$env/static/public`, never from `$env/dynamic/public` unless SSR-dynamic values are needed.
-
-### Routes
-
-```
-src/routes/
-├── +layout.svelte       # Root layout
-├── +page.svelte         # Homepage (company intro + app showcase)
-└── api/                 # SvelteKit server routes if needed
-```
-
-### Shared Game Backend
-
-Tables and RPCs live in the Supabase project `yfrfgnvamuyvwentgndq`. Key objects:
-
-| Object | Type | Purpose |
+| Path | What | Status |
 |---|---|---|
-| `game_players` | Table | Cross-app player identity (keyed by email) |
-| `game_flappy_scores` | Table | Per-session scores; `app_id` distinguishes which app submitted |
-| `submit_flappy_score` | RPC | Upsert player + insert score atomically |
-| `get_flappy_leaderboard` | RPC | Top 10 by personal best; pass `p_app_id` or omit for global |
-| `get_flappy_user_rank` | RPC | Player's rank + best score by email |
+| `docs/` | Public pages: landing page, plus privacy-policy and support pages for each app | **Live** on GitHub Pages at https://stylish-engineering.github.io/apps/. Every push to `main` publishes it |
+| `src/`, `static/` | Brand website (SvelteKit) | Not deployed yet |
+| `supabase/` | Game backend shared by the apps (leaderboards) | Live. Supabase project `yfrfgnvamuyvwentgndq` |
 
-Migration files are in `supabase/migrations/`. Apply via Supabase dashboard SQL editor.
+This repo is public. Never commit secrets or private details.
 
-**`app_id` convention:** lowercase string identifying the submitting app, e.g. `'sevendo'`, `'doughit'`.
+## docs/
 
----
+- App Store and Google Play listings link to these URLs. Never rename, move or delete a published path (`docs/sevenDo/…`, `docs/giosPizzaChef/…`). Change content in place.
+- The text of each app's privacy and support pages is owned by that app's repo and mirrored here. Change it there first.
+- Plain static HTML, no build step.
 
-## Database Migrations
+## Website
 
-- Store all migrations in `supabase/migrations/` with the naming convention `YYYYMMDDHHMMSS_description.sql`
-- The initial schema is in the first migration file (ported from `temp-supabase-migration.txt`)
-- Apply manually via the Supabase dashboard — there is no local Supabase CLI setup required
+- Svelte 5 only: runes (`$state`, `$derived`, `$effect`, `$props`, `$bindable`), `onclick` not `on:click`, `let { foo } = $props()` not `export let`, callback props not `createEventDispatcher`.
+- TypeScript strict, no `any` unless unavoidable. Tailwind CSS v4.
+- No authentication. Only the Supabase anon key, through `src/lib/supabase/game.ts`. Env vars `PUBLIC_GAME_SUPABASE_URL` and `PUBLIC_GAME_SUPABASE_ANON_KEY`, imported from `$env/static/public`.
+- Commands (npm): `npm run dev`, `npm run check`, `npm run build`.
+- Deployment is not set up. The code is ready for Cloudflare Pages (`adapter-cloudflare`, `wrangler.toml`, build command `npm run build`, output `.svelte-kit/cloudflare`). Still to do by hand: create the Pages project with the two `PUBLIC_GAME_SUPABASE_*` variables, choose the production branch, connect `stylishengineering.com`.
+- Files: components `src/lib/components/Name.svelte`, utilities `src/lib/utils/name.ts`, types `src/lib/types/*.ts`, assets `static/`.
 
----
+## Shared game backend
 
-## Deployment
-
-Cloudflare Pages is configured to watch the `release-website` branch. Merging or pushing to it triggers an automatic build and deploy to stylishengineering.com.
-
-Build command: `pnpm build`  
-Output directory: `.svelte-kit/cloudflare` (adapter-cloudflare)
-
----
-
-## Apps Showcased
-
-These are external products — only present them on the website, do not implement their logic here.
-
-| App | Description | Website |
-|---|---|---|
-| SevenDo | Weekly planner TO DO app | Coming soon |
-| Saber Investir | Personal finance + investment simulator with real stock data | Coming soon |
-| DoughIt | Pizza dough recipe calculator and step-by-step guide | Coming soon |
-
----
-
-## File Conventions
-
-- Components: `src/lib/components/ComponentName.svelte` (PascalCase)
-- Utilities: `src/lib/utils/descriptiveName.ts` (camelCase)
-- Supabase clients: `src/lib/supabase/*.ts`
-- Types: `src/lib/types/*.ts`
-- Static assets: `static/` (logo is at `static/stylish-engineering-logo.png`)
+- `supabase/README.md` is the RPC reference client apps code against. Update it in the same change as any migration.
+- Migrations: `supabase/migrations/YYYYMMDDHHMMSS_description.sql`. Never edit an applied one; add a new one.
+- `npm run supabase-push` applies them to the production database. It needs `SUPABASE_ACCESS_TOKEN` exported in the shell (the CLI does not read `.env.local`), or `npx supabase login` once. Ask before running it.
+- `app_id` is a lowercase string per client app, for example `'sevendo'`, `'doughit'`.

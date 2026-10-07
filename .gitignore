@@ -21,3 +21,9 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Supabase CLI cache
+supabase/.temp/
+
+# Claude Code local settings
+.claude/settings.local.json

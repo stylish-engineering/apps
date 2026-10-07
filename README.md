@@ -1,42 +1,18 @@
-# sv
+# Stylish Engineering — apps
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Public home of Stylish Engineering.
 
-## Creating a project
+- **`docs/`** — the public pages served at https://stylish-engineering.github.io/apps/: the landing page, plus privacy-policy and support pages for each app. GitHub Pages publishes it on every push to `main`.
+- **`src/`, `static/`** — the brand website (SvelteKit, Tailwind CSS). Not deployed yet.
+- **`supabase/`** — schema and RPC reference for the game backend shared by the apps. See [`supabase/README.md`](supabase/README.md).
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
+## Website development
 
 ```sh
-# recreate this project
-npx sv@0.13.1 create --template minimal --types ts --install npm .
+npm install
+npm run dev      # dev server
+npm run check    # type check
+npm run build    # production build
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Copy `.env.example` to `.env.local` and fill in the values first.
